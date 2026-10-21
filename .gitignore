@@ -49,3 +49,7 @@ app.*.map.json
 
 # Sokudo internal
 .sokudo/
+
+# Environment files
+.env
+.env.*
