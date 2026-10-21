@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'screens/splash_screen.dart';
 import 'services/supabase_service.dart';
 import 'theme/theme.dart';
+import 'utils/adaptive_platform.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,11 +25,19 @@ class RideOnApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'RideOn',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      home: const SplashScreen(),
+    return AdaptiveScope(
+      controller: AdaptivePlatformController.instance,
+      child: MaterialApp(
+        title: 'RideOn',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.lightTheme,
+        builder: (context, child) {
+          return AdaptiveContainer(
+            child: child ?? const SizedBox.shrink(),
+          );
+        },
+        home: const SplashScreen(),
+      ),
     );
   }
 }

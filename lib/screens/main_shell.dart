@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/food_item.dart';
 import '../theme/colors.dart';
+import '../utils/adaptive_platform.dart';
 import 'home_tab.dart';
 import 'favorite_tab.dart';
 import 'activity_tab.dart';
@@ -219,54 +220,14 @@ class _MainShellState extends State<MainShell> {
           ),
         ],
       ),
-      bottomNavigationBar: Container(
-        height: 68,
-        decoration: const BoxDecoration(
-          color: AppColors.primaryDark,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildNavItem(0, 'Beranda', Icons.home_rounded),
-            _buildNavItem(1, 'Favorite', Icons.favorite_rounded),
-            _buildNavItem(2, 'Aktivitas', Icons.receipt_long_rounded),
-            _buildNavItem(3, 'chat', Icons.chat_bubble_rounded),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildNavItem(int index, String label, IconData icon) {
-    final isSelected = _currentTab == index;
-    return GestureDetector(
-      onTap: () => setState(() => _currentTab = index),
-      behavior: HitTestBehavior.opaque,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-            decoration: BoxDecoration(
-              color: isSelected ? Colors.white : Colors.transparent,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Icon(
-              icon,
-              size: 20,
-              color: isSelected ? AppColors.primaryDark : Colors.white,
-            ),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 10,
-              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-              color: isSelected ? Colors.white : Colors.white70,
-            ),
-          ),
+      bottomNavigationBar: AdaptiveBottomNavBar(
+        currentIndex: _currentTab,
+        onTabSelected: (index) => setState(() => _currentTab = index),
+        items: const [
+          AdaptiveNavItem(icon: Icons.home_outlined, activeIcon: Icons.home_rounded, label: 'Beranda'),
+          AdaptiveNavItem(icon: Icons.favorite_border_rounded, activeIcon: Icons.favorite_rounded, label: 'Favorite'),
+          AdaptiveNavItem(icon: Icons.receipt_long_outlined, activeIcon: Icons.receipt_long_rounded, label: 'Aktivitas'),
+          AdaptiveNavItem(icon: Icons.chat_bubble_outline_rounded, activeIcon: Icons.chat_bubble_rounded, label: 'Chat'),
         ],
       ),
     );
